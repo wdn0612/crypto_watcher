@@ -1,0 +1,4 @@
+smtplib
+ssl
+beautifulsoup4
+requests
