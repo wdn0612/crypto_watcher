@@ -11,7 +11,8 @@ headers = {
 }
 crypto_to_scrape = ['BTC', 'ETH', 'ADA']
 real_time_prices = {}
-
+email_addreess = '' #<YourEmailAddress>
+app_password = '' # <YourAppPassword>
 
 def scrape(url):
     r = requests.get(url, headers=headers)
@@ -67,8 +68,8 @@ def send_notification(crypto, current_price, seven_day_avg):
     seven_day_avg_str = "{:.2f}".format(seven_day_avg)
 
     message = MIMEMultipart('mixed')
-    message['From'] = '' #<YourEmailAddress>
-    message['To'] = ''#<YourEmailAddress>
+    message['From'] = email_addreess
+    message['To'] = email_addreess
     message['Subject'] = f'New {crypto}/USD Hits'
     body = f'{crypto} has hit {current_price} USD with 7 - day average {seven_day_avg_str} USD with drop of {drop} %.'
     body = MIMEText(body, 'plain')
@@ -78,8 +79,8 @@ def send_notification(crypto, current_price, seven_day_avg):
     try:
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login('', '') #<YourEmailAddress>, <YourAppPassword>
-            server.sendmail('', [''], message) #<YourEmailAddress>
+            server.login(email_addreess, app_password)
+            server.sendmail(email_addreess, [app_password], message)
         print('-' * 50)
         print("Email Notification -> Message has been sent.")
         print('-' * 50)
